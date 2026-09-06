@@ -13,8 +13,11 @@ glm::vec2 CohesionRule::computeForce(const std::vector<BoidView>& neighborhood, 
   {
     centralPos += neighborhood[i].position;
   }
-  centralPos /= neighborhood.size();
-  cohesionForce = glm::normalize(boid.position - centralPos);
+  if (neighborhood.size() > 0) {
+    centralPos /= neighborhood.size();
+    cohesionForce = glm::normalize(centralPos - boid.position);
+  }
+  
 
   // end solution
 

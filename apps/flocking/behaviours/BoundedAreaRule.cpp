@@ -8,9 +8,25 @@ glm::vec2 BoundedAreaRule::computeForce(const std::vector<BoidView>& neighborhoo
   ImVec2 displaySize = ImGui::GetIO().DisplaySize;
   // desiredDistance is the distance from the borders that the boids should try to maintain. 
 
-  // begin solution
+  
+  if (glm::length(boid.position.x - displaySize.x) <= desiredDistance)
+  {
+    force.x += (boid.position.x - displaySize.x);
+  }
+  else if (glm::length(boid.position.x) <= desiredDistance)
+  {
+    force.x += (boid.position.x);
+  }
+  if (glm::length(boid.position.y - displaySize.y) <= desiredDistance) {
+    force.y += (boid.position.y - displaySize.y);
+  } else if (glm::length(boid.position.y) <= desiredDistance) {
+    force.y += (boid.position.y);
+  }
 
   // end solution
+  if (force.x != 0 || force.y != 0) {
+    force = glm::normalize(force) * getBaseWeightMultiplier();
+  }
 
   return force;
 }
