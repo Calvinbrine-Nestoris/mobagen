@@ -14,16 +14,14 @@ glm::vec2 SeparationRule::computeForce(const std::vector<BoidView>& neighborhood
 
   int closeCount = 0;
   for (int i = 0; i < neighborhood.size(); i++) {
-    if (glm::length(neighborhood[i].position - boid.position) <= desiredMinimalDistance)
+    glm::vec2 arr = (boid.position - neighborhood[i].position);
+    float len = glm::length(arr);
+    if (len <= desiredMinimalDistance)
     {
-      separatingForce = (boid.position - neighborhood[i].position);
+        auto hat = arr / len;
+      separatingForce += hat / (len / desiredMinimalDistance);
       closeCount++;
     }
-  }
-  if (closeCount > 0)
-  {
-    separatingForce /= closeCount;
-    separatingForce = glm::normalize(separatingForce);
   }
   
   // end solution
